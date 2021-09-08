@@ -4,11 +4,13 @@ import com.seduardo.personapi.Repository.PersonRepository;
 import com.seduardo.personapi.dto.request.PersonDTO;
 import com.seduardo.personapi.dto.response.MessageResponseDTO;
 import com.seduardo.personapi.entity.Person;
+import com.seduardo.personapi.exception.PersonNotFoundException;
 import com.seduardo.personapi.mapper.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -40,5 +42,12 @@ public class PersonService {
         return allPeople.stream()
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public PersonDTO findByid(Long id) throws PersonNotFoundException {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+
+        return personMapper.toDTO(person);
     }
 }

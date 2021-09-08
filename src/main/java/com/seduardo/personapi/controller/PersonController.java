@@ -2,6 +2,7 @@ package com.seduardo.personapi.controller;
 
 import com.seduardo.personapi.dto.request.PersonDTO;
 import com.seduardo.personapi.dto.response.MessageResponseDTO;
+import com.seduardo.personapi.exception.PersonNotFoundException;
 import com.seduardo.personapi.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,5 +31,10 @@ public class PersonController {
     @GetMapping
     public List<PersonDTO> listAll(){
         return personService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
+        return personService.findByid(id);
     }
 }
